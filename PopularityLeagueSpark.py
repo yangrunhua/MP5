@@ -38,7 +38,7 @@ last_x = None
 final_output = dict()
 for x in output:
     if last_x:
-        final_output[x[0]] = final_output[last_x[0]] + 1 if x[1] != last_x[1] else final_output(last_x[0])
+        final_output[x[0]] = final_output[last_x[0]] + 1 if x[1] != last_x[1] else final_output[last_x[0]]
     else:
         final_output[x[0]] = 0
     last_x = x
