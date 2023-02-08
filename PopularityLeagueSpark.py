@@ -21,7 +21,8 @@ def mapper(line):
 
 leagueIds = sc.textFile(sys.argv[2], 1)
 league_id_list = leagueIds.flatMap(lambda line: line.strip()).collect()
-output = output.filter(lambda x: x[0] in league_id_list).map(lambda x: (x[0], x[1], 0)).sortBy(lambda x: x[1]).collect()
+output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[0] in league_id_list) \
+    .map(lambda x: (x[0], x[1], 0)).sortBy(lambda x: x[1]).collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 last_x = None
