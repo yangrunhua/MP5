@@ -7,7 +7,6 @@ conf.set("spark.driver.bindAddress", "127.0.0.1")
 sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[1], 1)
-print(lines.collect())
 
 def mapper(line):
     src, dest = line.strip().split(':', 1)
