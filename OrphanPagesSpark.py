@@ -18,16 +18,18 @@ def mapper(line):
             result.append((d, 1))
     return result
 
+outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
 output = lines.flatMap(mapper)
-print(output.collect())
+outputFile.write(output.collect())
+outputFile.write("==========\n")
 output = output.reduceByKey(lambda x, y: x+y)
-print(output.collect())
+outputFile.write(output.collect())
+outputFile.write("==========\n")
 output = output.filter(lambda x: x == 0)
-print(output.collect())
+outputFile.write(output.collect())
+outputFile.write("==========\n")
 output = output.collect()
-
-outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
 
 for i in sorted(output, key=lambda x: str(x[0])):
