@@ -37,7 +37,8 @@ def custom_split(orig_line):
     return words
 
 
-counts = lines.flatMap(custom_split).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y)
+counts = lines.flatMap(custom_split).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y) \
+    .sortByKey().top(10)
 
 outputFile = open(sys.argv[4], "w", encoding='utf-8')
 
