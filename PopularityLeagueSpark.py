@@ -23,16 +23,12 @@ leagueIds = sc.textFile(sys.argv[2], 1)
 league_id_list = leagueIds.collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
-for i in league_id_list:
-    outputFile.write('League ID %s\n' % i)
 
 output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[0] in league_id_list) \
     .sortBy(lambda x: x[1]).collect()
 
-
-
 for i in output:
-    outputFile.write('%s\t%s\n' % (output[0], output[1]))
+    outputFile.write('%s\t%s\n' % (i[0], i[1]))
 
 last_x = None
 final_output = dict()
