@@ -26,10 +26,10 @@ lines = sc.textFile(sys.argv[3], 1)
 
 counts = lines.flatMap(lambda l: l.split(" ")).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y)
 
-outputFile = open(sys.argv[4], "w")
+outputFile = open(sys.argv[4], "w", encoding='utf-8')
 
 output = counts.collect()
 for (word, count) in output:
-    outputFile.write(u"%s\t%i\n" % (word, count))
+    outputFile.write("%s\t%i\n" % (word, count))
 outputFile.close()
 sc.stop()
