@@ -19,17 +19,7 @@ def mapper(line):
 
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
-output = lines.flatMap(mapper)
-outputFile.write(str(type(output.collect()[0])))
-outputFile.write("\n==========\n")
-output = output.reduceByKey(lambda x, y: x+y)
-outputFile.write(str(type(output.collect()[0])))
-outputFile.write("\n==========\n")
-output = output.filter(lambda x: x[1] == 0)
-outputFile.write(str(type(output.collect()[0])))
-outputFile.write("\n==========\n")
-output = output.collect()
-
+output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[1] == 0).collect()
 
 for i in sorted(output, key=lambda x: str(x[0])):
     outputFile.write(i[0] + "\n")
