@@ -30,14 +30,12 @@ output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[
 for i in output:
     outputFile.write('%s\t%s\n' % (i[0], i[1]))
 
-last_x = None
 final_output = dict()
 for x in range(len(output)):
-    if last_x:
-        final_output[output[x][0]] = x if output[x][1] != output[last_x][1] else final_output[output[last_x][0]]
+    if x > 0:
+        final_output[output[x][0]] = x if output[x][1] != output[x-1][1] else final_output[output[x-1][0]]
     else:
         final_output[output[x][0]] = 0
-    last_x = x
 
 for p in sorted(final_output.keys()):
     outputFile.write('%s\t%s\n' % (p, final_output[p]))
