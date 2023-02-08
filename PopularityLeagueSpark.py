@@ -39,7 +39,7 @@ for x in range(len(output)):
         final_output[output[x][0]] = 0
     last_x = x
 
-for p in sorted(final_output):
+for p in sorted(final_output.keys()):
     outputFile.write('%s\t%s\n' % (p, final_output[p]))
 
 outputFile.close()
