@@ -10,13 +10,29 @@ sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[1], 1) 
 
-#TODO
+def mapper(line):
+    src, dest = line.strip().split(':', 1)
+    dest_list = [i.strip() for i in dest.split(' ') if i]
+    result = [(src.strip(), 0)]
+    for d in dest_list:
+        if d and not d == src.strip():
+            result.append((d, 1))
+    return result
 
 leagueIds = sc.textFile(sys.argv[2], 1)
+league_id_list = leagueIds.flatMap(lambda line: line.strip()).collect()
+output = output.filter(lambda x: x[0] in league_id_list).map(lambda x: (x[0], x[1], 0)).sortBy(lambda x: x[1]).collect()
 
-#TODO
+outputFile = open(sys.argv[3], "w", encoding='utf-8')
+last_x = None
+for x in output:
+    if last_x:
+        x[2] = last_x[2] + 1 if x[1] != last_x[1] else last_x[2]
+    last_x = x
 
-output = open(sys.argv[3], "w")
+output.sort(key=lambda x: x[0])
+for p in output:
+    outputFile.write('%s\t%s' % (p[0], p[2]))
 
 #TODO
 #write results to output file. Foramt for each line: (key + \t + value +"\n")
