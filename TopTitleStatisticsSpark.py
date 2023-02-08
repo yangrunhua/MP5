@@ -20,7 +20,7 @@ t = 0
 top_mean = int(output.mean())
 for i in output.collect():
     t = t + (i - top_mean) ** 2
-top_var = int(t / float(n))
+top_var = int(float(t) / output.count())
 
 outputFile.write('Var\t%s\n' % top_var)
 
