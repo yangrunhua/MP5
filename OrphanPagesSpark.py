@@ -6,14 +6,25 @@ conf = SparkConf().setMaster("local").setAppName("OrphanPages")
 conf.set("spark.driver.bindAddress", "127.0.0.1")
 sc = SparkContext(conf=conf)
 
-lines = sc.textFile(sys.argv[1], 1) 
+lines = sc.textFile(sys.argv[1], 1)
 
-#TODO
+def mapper(line):
+    src, dest = line.strip().split(':', 1)
+    dest_list = [i.strip() for i in dest.split(' ') if i]
+    result = [(src.strip(), 0)]
+    for d in dest_list:
+        if d and not d == src.strip():
+            result.append((d, 1))
 
-output = open(sys.argv[2], "w")
 
-#TODO
-#write results to output file. Foramt for each line: (line + "\n")
+output = lines.flatMap(mapper).reduceByKey(lambda x,y: x.join(y)).filter(lambda x: len(x[1]) == 1).collect()
 
+outputFile = open(sys.argv[2], "w", encoding='utf-8')
+
+
+for i in sorted(output, key=lambda x: str(x[0])):
+    outputFile.write(i + "\n")
+
+outputFile.close()
 sc.stop()
 
