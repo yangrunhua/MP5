@@ -17,7 +17,7 @@ def mapper(line):
             result.append((d, 1))
 
 
-output = lines.flatMap(mapper).reduceByKey(lambda x,y: x.join(y)).filter(lambda x: len(x[1]) == 1).collect()
+output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x == 0).collect()
 
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
