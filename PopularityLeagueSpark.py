@@ -34,12 +34,9 @@ for x in output:
         final_output[x[0]] = 0
     last_x = x
 
-final_output.sort(key=lambda x: x[0])
-for p in final_output:
-    outputFile.write('%s\t%s' % (p[0], p[2]))
+for p in sorted(final_output):
+    outputFile.write('%s\t%s' % (p, final_output[p]))
 
-#TODO
-#write results to output file. Foramt for each line: (key + \t + value +"\n")
-
+outputFile.close()
 sc.stop()
 
