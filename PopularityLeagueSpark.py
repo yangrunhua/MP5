@@ -20,7 +20,7 @@ def mapper(line):
     return result
 
 leagueIds = sc.textFile(sys.argv[2], 1)
-league_id_list = leagueIds.flatMap(lambda line: line.strip()).collect()
+league_id_list = leagueIds.collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 for i in league_id_list:
