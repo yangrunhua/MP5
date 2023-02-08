@@ -24,21 +24,18 @@ league_id_list = leagueIds.collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 
-output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[0] in league_id_list) \
+league_count = lines.flatMap(mapper).reduceByKey(lambda x, y: x + y).filter(lambda x: x[0] in league_id_list) \
     .sortBy(lambda x: x[1]).collect()
 
-for i in output:
-    outputFile.write('%s\t%s\n' % (i[0], i[1]))
-
-final_output = dict()
-for x in range(len(output)):
+rank = dict()
+for x in range(len(league_count)):
     if x > 0:
-        final_output[output[x][0]] = x if output[x][1] != output[x-1][1] else final_output[output[x-1][0]]
+        rank[league_count[x][0]] = x if league_count[x][1] != league_count[x - 1][1] else rank[league_count[x - 1][0]]
     else:
-        final_output[output[x][0]] = 0
+        rank[league_count[x][0]] = 0
 
-for p in sorted(final_output.keys()):
-    outputFile.write('%s\t%s\n' % (p, final_output[p]))
+for p in sorted(rank.keys()):
+    outputFile.write('%s\t%s\n' % (p, rank[p]))
 
 outputFile.close()
 sc.stop()
