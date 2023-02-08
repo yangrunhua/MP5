@@ -24,7 +24,7 @@ league_id_list = leagueIds.flatMap(lambda line: line.strip()).collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 for i in league_id_list:
-    outputFile.write('League ID %s\t%s\n' % i)
+    outputFile.write('League ID %s\n' % i)
 
 output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[0] in league_id_list) \
     .sortBy(lambda x: x[1]).collect()
