@@ -7,6 +7,7 @@ conf.set("spark.driver.bindAddress", "127.0.0.1")
 sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[1], 1)
+print(lines.collect())
 
 def mapper(line):
     src, dest = line.strip().split(':', 1)
@@ -18,7 +19,13 @@ def mapper(line):
     return result
 
 
-output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x == 0).collect()
+output = lines.flatMap(mapper)
+print(output.collect())
+output = output.reduceByKey(lambda x, y: x+y)
+print(output.collect())
+output = output.filter(lambda x: x == 0)
+print(output.collect())
+output = output.collect()
 
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
