@@ -40,6 +40,8 @@ def custom_split(orig_line):
 output = lines.flatMap(custom_split).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y) \
     .top(10, key=lambda x: int(x[1]))
 
+output = sorted(output, key=lambda x: str(x[0]))
+
 outputFile = open(sys.argv[4], "w", encoding='utf-8')
 
 for (word, count) in output:
