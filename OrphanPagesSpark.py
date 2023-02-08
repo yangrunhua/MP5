@@ -15,6 +15,7 @@ def mapper(line):
     for d in dest_list:
         if d and not d == src.strip():
             result.append((d, 1))
+    return result
 
 
 output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x == 0).collect()
