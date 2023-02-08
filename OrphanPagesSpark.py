@@ -13,7 +13,7 @@ def mapper(line):
     dest_list = [i.strip() for i in dest.split(' ') if i]
     result = [(src.strip(), 0)]
     for d in dest_list:
-        if d and not d == src.strip():
+        if d: # and not d == src.strip():
             result.append((d, 1))
     return result
 
