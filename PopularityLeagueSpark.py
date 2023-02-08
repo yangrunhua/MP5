@@ -22,17 +22,19 @@ def mapper(line):
 leagueIds = sc.textFile(sys.argv[2], 1)
 league_id_list = leagueIds.flatMap(lambda line: line.strip()).collect()
 output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[0] in league_id_list) \
-    .map(lambda x: (x[0], x[1], 0)).sortBy(lambda x: x[1]).collect()
+    .sortBy(lambda x: x[1]).collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 last_x = None
+
+final_output = []
 for x in output:
     if last_x:
-        x[2] = last_x[2] + 1 if x[1] != last_x[1] else last_x[2]
+        final_output.append(x[0], x[1], last_x[2] + 1 if x[1] != last_x[1] else last_x[2])
     last_x = x
 
-output.sort(key=lambda x: x[0])
-for p in output:
+final_output.sort(key=lambda x: x[0])
+for p in final_output:
     outputFile.write('%s\t%s' % (p[0], p[2]))
 
 #TODO
