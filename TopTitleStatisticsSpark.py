@@ -8,18 +8,15 @@ sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[1], 1)
 
-#TODO
+output = lines.flatMap(lambda line: line.split('\t', 1)[1])
+outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
-outputFile = open(sys.argv[2], "w")
-'''
-TODO write your output here
-write results to output file. Format
-outputFile.write('Mean\t%s\n' % ans1)
-outputFile.write('Sum\t%s\n' % ans2)
-outputFile.write('Min\t%s\n' % ans3)
-outputFile.write('Max\t%s\n' % ans4)
-outputFile.write('Var\t%s\n' % ans5)
-'''
+outputFile.write('Mean\t%s\n' % output.mean())
+outputFile.write('Sum\t%s\n' % output.sum())
+outputFile.write('Min\t%s\n' % output.min())
+outputFile.write('Max\t%s\n' % output.max())
+outputFile.write('Var\t%s\n' % output.variance())
 
+outputFile.close()
 sc.stop()
 
