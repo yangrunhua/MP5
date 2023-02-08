@@ -15,7 +15,14 @@ outputFile.write('Mean\t%s\n' % int(output.mean()))
 outputFile.write('Sum\t%s\n' % int(output.sum()))
 outputFile.write('Min\t%s\n' % int(output.min()))
 outputFile.write('Max\t%s\n' % int(output.max()))
-outputFile.write('Var\t%s\n' % int(output.variance()))
+
+t = 0
+top_mean = int(output.mean())
+for i in output.collect():
+    t = t + (i - top_mean) ** 2
+top_var = int(t / float(n))
+
+outputFile.write('Var\t%s\n' % top_var)
 
 outputFile.close()
 sc.stop()
