@@ -24,7 +24,20 @@ sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[3], 1)
 
-counts = lines.flatMap(lambda l: l.split(" ")).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y)
+
+def custom_split(orig_line):
+    c_list = list(orig_line)
+    for i in range(len(orig_line)):
+        if c_list[i] in delimiters:
+            c_list[i] = '*'
+    lines_tmp = ''.join(c_list)
+    words = lines_tmp.split('*')
+    words = [w.strip().lower() for w in words]
+    words = [w for w in words if w and not w in stop_words]
+    return words
+
+
+counts = lines.flatMap(custom_split).map(lambda w: (w, 1)).reduceByKey(lambda x, y: x + y)
 
 outputFile = open(sys.argv[4], "w", encoding='utf-8')
 
