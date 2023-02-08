@@ -34,7 +34,7 @@ last_x = None
 final_output = dict()
 for x in range(len(output)):
     if last_x:
-        final_output[output[x][0]] = x if x[1] != output[last_x][1] else final_output[output[last_x][0]]
+        final_output[output[x][0]] = x if output[x][1] != output[last_x][1] else final_output[output[last_x][0]]
     else:
         final_output[output[x][0]] = 0
     last_x = x
