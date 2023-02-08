@@ -30,7 +30,7 @@ last_x = None
 final_output = []
 for x in output:
     if last_x:
-        final_output.append(x[0], x[1], last_x[2] + 1 if x[1] != last_x[1] else last_x[2])
+        final_output.append((x[0], x[1], last_x[2] + 1 if x[1] != last_x[1] else last_x[2]))
     last_x = x
 
 final_output.sort(key=lambda x: x[0])
