@@ -25,6 +25,10 @@ output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[
     .sortBy(lambda x: x[1]).collect()
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
+
+for i in output:
+    outputFile.write('%s\t%s\n' % (output[0], output[1]))
+
 last_x = None
 final_output = dict()
 for x in output:
@@ -35,7 +39,7 @@ for x in output:
     last_x = x
 
 for p in sorted(final_output):
-    outputFile.write('%s\t%s' % (p, final_output[p]))
+    outputFile.write('%s\t%s\n' % (p, final_output[p]))
 
 outputFile.close()
 sc.stop()
