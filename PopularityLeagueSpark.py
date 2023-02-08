@@ -26,11 +26,12 @@ output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).filter(lambda x: x[
 
 outputFile = open(sys.argv[3], "w", encoding='utf-8')
 last_x = None
-
 final_output = []
 for x in output:
     if last_x:
         final_output.append((x[0], x[1], last_x[2] + 1 if x[1] != last_x[1] else last_x[2]))
+    else:
+        final_output.append((x[0], x[1], 0))
     last_x = x
 
 final_output.sort(key=lambda x: x[0])
