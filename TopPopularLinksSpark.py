@@ -20,9 +20,9 @@ def mapper(line):
 
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
-output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).top(10, lambda x: x[1]).sortBy(lambda x: x[0]).collect()
+output = lines.flatMap(mapper).reduceByKey(lambda x, y: x+y).top(10, lambda x: x[1])
 
-for i in output:
+for i in sorted(output, key=lambda x: str(x[0])):
     outputFile.write(u"%s\t%i\n" % (i[0], i[i]))
 
 outputFile.close()
