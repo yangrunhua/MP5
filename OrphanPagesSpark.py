@@ -32,7 +32,7 @@ output = output.collect()
 
 
 for i in sorted(output, key=lambda x: str(x[0])):
-    outputFile.write(i + "\n")
+    outputFile.write(i[0] + "\n")
 
 outputFile.close()
 sc.stop()
