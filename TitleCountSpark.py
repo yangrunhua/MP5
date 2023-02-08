@@ -30,6 +30,6 @@ outputFile = open(sys.argv[4], "w")
 
 output = counts.collect()
 for (word, count) in output:
-    outputFile.write("%s\t%i\n" % (word, count))
+    outputFile.write(u"%s\t%i\n" % (word, count))
 outputFile.close()
 sc.stop()
