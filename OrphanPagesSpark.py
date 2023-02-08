@@ -20,13 +20,13 @@ def mapper(line):
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
 output = lines.flatMap(mapper)
-outputFile.writelines(type(output.collect()))
+outputFile.write(type(output.collect()))
 outputFile.write("\n==========\n")
 output = output.reduceByKey(lambda x, y: x+y)
-outputFile.writelines(type(output.collect()))
+outputFile.write(type(output.collect()))
 outputFile.write("\n==========\n")
 output = output.filter(lambda x: x == 0)
-outputFile.writelines(type(output.collect()))
+outputFile.write(type(output.collect()))
 outputFile.write("\n==========\n")
 output = output.collect()
 
