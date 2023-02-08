@@ -8,7 +8,7 @@ sc = SparkContext(conf=conf)
 
 lines = sc.textFile(sys.argv[1], 1)
 
-output = lines.flatMap(lambda line: line.split('\t', 1)[1:]))
+output = lines.flatMap(lambda line: line.split('\t', 1)[1:])
 outputFile = open(sys.argv[2], "w", encoding='utf-8')
 
 outputFile.write('Mean\t%s\n' % output.mean())
